@@ -47,12 +47,12 @@ git_flow_release(
 ```
 Complete the release version 1.0.5 on your git repository
 
-## [git_get_origin_info](fastlane/actions/git_get_origin_info.rb)
+## [git_get_remote_info](fastlane/actions/git_get_remote_info.rb)
 
 This action retrieves information about the git remote
 
 ```Ruby
-info = git_get_origin_info()
+info = git_get_remote_info()
 print info[:path]
 ```
 
@@ -70,20 +70,19 @@ new_changelog_version(
 
 ## [prepare_lane_options](fastlane/actions/prepare_lane_options.rb)
 
-Helper action, use by your lane to check if all required parameters are set and to map environment variable to parametes
+Helper action, use by your lane to map environment variable to options and after that check if all required options are set
 
 ```Ruby
-new_changelog_version(
-  product_name: "MyApp",
-  version: "1.0.5"
-  content: "new feature available !"
-)
-```
-prepare_lane_options(
+lane :sample_lane do |options|
+  prepare_lane_options(
     options: options,
     mapping: {
-      :workspace => {:env_var => "DG_WORKSPACE"},
-      :project => {:env_var => "DG_PROJECT"},
-      :scheme => {:env_var => "DG_SCHEME"}
-    }
+      :product_name => {:env_var => "DG_PRODUCT_NAME"}
+    },
+    required_keys: [
+      :product_name
+    ]
   )
+  print options[:product_name] # The product name will not be nil
+end
+```
