@@ -6,7 +6,8 @@ module Fastlane
     class GitFlowReleaseAction < Action
       def self.run(params)
         action = params[:action]
-        cmd = ["git flow #{action} release"]
+        cmd = ["git flow release"]
+        cmd << action
         if action == "start"
           cmd << "-F" if params[:fetch]
         elsif action == "finish"
@@ -49,7 +50,8 @@ module Fastlane
           FastlaneCore::ConfigItem.new(key: :fetch,
                                        env_name: "GIT_FLOW_FETCH",
                                        description: "Fetch from $ORIGIN before performing local operation",
-                                       is_string: false),
+                                       is_string: false,
+                                       default_value: false),
           FastlaneCore::ConfigItem.new(key: :message,
                                        env_name: "GIT_FLOW_RELEASE_MESSAGE",
                                        description: "Use the given tag message"),
