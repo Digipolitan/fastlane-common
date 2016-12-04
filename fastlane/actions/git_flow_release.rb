@@ -5,8 +5,8 @@ module Fastlane
 
     class GitFlowReleaseAction < Action
       def self.run(params)
-        cmd = ["git flow #{action} release"]
         action = params[:action]
+        cmd = ["git flow #{action} release"]
         if action == "start"
           cmd << "-F" if params[:fetch]
         elsif action == "finish"
