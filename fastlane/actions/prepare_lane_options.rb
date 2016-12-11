@@ -68,6 +68,34 @@ module Fastlane
         true
       end
 
+      def self.example_code
+        [
+          'prepare_lane_options(
+            options: lane_options,
+            mapping: {
+              :product_name => {
+                :env_var => "DG_PRODUCT_NAME"
+              }
+            }
+          )',
+          'prepare_lane_options(
+            options: lane_options,
+            mapping: {
+              :product_name => {
+                :env_var => "DG_PRODUCT_NAME"
+              },
+              :changelog => {
+                :env_var => "DG_CHANGELOG_CONTENT",
+                :default_value => "Empty changelog"
+              },
+            },
+            required_keys: [
+              :product_name
+            ]
+          )'
+        ]
+      end
+
       def self.category
         :misc
       end

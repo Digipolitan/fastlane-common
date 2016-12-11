@@ -1,7 +1,7 @@
-Digipolitan Fastlane common
+Digipolitan fastlane-common
 ================
 
-Create common lanes used by sub Digipolitan repository
+Create common actions used by sub Digipolitan fastlane-repositories
 
 ## Installation
 To install fastlane, simply use gem:
@@ -24,6 +24,7 @@ files = files_matching(
   pattern: "*.txt",
   directory: "./assets"
 )
+print files.length + " txt files"
 ```
 This command search all files with txt extension on the assets directory
 

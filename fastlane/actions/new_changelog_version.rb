@@ -80,6 +80,22 @@ module Fastlane
         true
       end
 
+      def self.example_code
+        [
+          'new_change_log_version(
+            verion: "1.0.0",
+            product_name: "my_app"
+          )',
+          'new_change_log_version(
+            version: "2.1.4",
+            product_name: "my_app",
+            url: "https://download.my_app.com/release/v2.1.4",
+            content: "New feature available !",
+            delimiter: "***"
+          )'
+        ]
+      end
+
       def self.category
         :source_control
       end

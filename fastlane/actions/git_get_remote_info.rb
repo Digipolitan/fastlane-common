@@ -7,7 +7,7 @@ module Fastlane
       GIT_GET_REMOTE_INFO_USER = :GIT_GET_REMOTE_INFO_USER
       GIT_GET_REMOTE_INFO_PASSWORD = :GIT_GET_REMOTE_INFO_PASSWORD
     end
-    
+
     class GitGetRemoteInfoAction < Action
       def self.run(params)
         remote = params[:remote]
@@ -118,6 +118,12 @@ module Fastlane
 
       def self.is_supported?(platform)
         true
+      end
+
+      def self.example_code
+        [
+          'git_get_remote_info'
+        ]
       end
 
       def self.category

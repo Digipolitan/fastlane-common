@@ -82,6 +82,20 @@ module Fastlane
         true
       end
 
+      def self.example_code
+        [
+          'git_flow_release(
+            action: "start",
+            name: "1.0.1"
+          )',
+          'git_flow_release(
+            action: "finish",
+            name: "1.0.1",
+            "message": "New release version !"
+          )'
+        ]
+      end
+
       def self.category
         :source_control
       end

@@ -2,7 +2,7 @@ module Fastlane
   module Actions
     module SharedValues
     end
-    
+
     class FilesMatchingAction < Action
       def self.run(params)
         files = Dir[File.join(params[:directory], params[:pattern])]
@@ -52,6 +52,19 @@ module Fastlane
 
       def self.is_supported?(platform)
         true
+      end
+
+      def self.example_code
+        [
+          'files_matching',
+          'files_matching(
+            pattern: "*.zip",
+          )',
+          'files_matching(
+            pattern: "*.zip",
+            directory: "./assets"
+          )'
+        ]
       end
 
       def self.category
