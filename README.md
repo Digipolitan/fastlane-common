@@ -57,6 +57,14 @@ info = git_get_remote_info()
 print info[:path]
 ```
 
+## [ensure_git_flow_init](fastlane/actions/ensure_git_flow_init.rb)
+
+This action check if git flow is initialized
+
+```Ruby
+ensure_git_flow_init()
+```
+
 ## [new_changelog_version](fastlane/actions/new_changelog_version.rb)
 
 Adds to the changelog file the content of the new version
@@ -67,6 +75,14 @@ new_changelog_version(
   version: "1.0.5"
   content: "new feature available !"
 )
+```
+
+## [get_changelog](fastlane/actions/get_changelog.rb)
+
+Retrieves the last changelog content
+
+```Ruby
+changelog = get_changelog()
 ```
 
 ## [prepare_lane_options](fastlane/actions/prepare_lane_options.rb)

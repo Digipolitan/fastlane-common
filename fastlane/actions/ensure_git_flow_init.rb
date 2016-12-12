@@ -34,6 +34,11 @@ module Fastlane
         :source_control
       end
 
+      def self.example_code
+        [
+          'ensure_git_flow_init'
+        ]
+      end
     end
   end
 end

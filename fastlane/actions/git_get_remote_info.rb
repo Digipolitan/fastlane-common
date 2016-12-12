@@ -12,7 +12,7 @@ module Fastlane
       def self.run(params)
         remote = params[:remote]
         if git_url = Actions.sh("git config --get remote.#{remote}.url")
-          git_url = git_url.chomp()
+          git_url = git_url.strip()
           output = {}
           if git_url.start_with?("https")
             self.https_parser(git_url, output)
