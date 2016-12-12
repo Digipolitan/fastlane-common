@@ -12,7 +12,7 @@ module Fastlane
           data = File.read(file_path)
         end
         if data == nil || data.length == 0
-          data = "#Change Log\n\nAll notable changes to this project will be documented in this file.\n`#{product_name}` adheres to [Semantic Versioning](http://semver.org/).\n\n"
+          data = "# Change Log\n\nAll notable changes to this project will be documented in this file.\n`#{product_name}` adheres to [Semantic Versioning](http://semver.org/).\n\n"
         end
         delimiter = params[:delimiter]
         changelog = "#{delimiter}\n\n## "
