@@ -22,17 +22,17 @@ module Fastlane
         return nil
       end
 
-      def self.stripVersionHeader(change_log)
+      def self.stripVersionHeader(changelog)
         if start_index = changelog.index("##")
           end_index = changelog.index("\n", start_index)
-          res = change_log[0, start_index]
+          res = changelog[0, start_index]
           if end_index != nil
             end_index += 1
-            res += change_log[end_index, change_log.length - end_index]
+            res += changelog[end_index, change_log.length - end_index]
           end
-          change_log = res
+          changelog = res
         end
-        return change_log.strip()
+        return changelog.strip()
       end
 
       #####################################################
