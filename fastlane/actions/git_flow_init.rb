@@ -6,13 +6,17 @@ module Fastlane
     class GitFlowInitAction < Action
 
       def self.isInit()
-        res = Actions.sh("git config --get-regexp gitflow", log: false).chomp()
-        return res.length > 0
+        begin
+          Actions.sh("git config --get-regexp gitflow")
+          return true
+        rescue
+          return false
+        end
       end
 
       def self.init(master_branch, develop_branch, prefix_feature, prefix_bugfix, prefix_release, prefix_hotfix, prefix_support, prefix_versiontag)
         UI.message "Starting git flow init..."
-        file_name = ".gitflow_init.tmp"
+        file_name = ".git/.gitflow_init.tmp"
         Actions.sh("rm -f #{file_name}", log: false)
         Actions.sh("echo '#!/usr/bin/expect' >> #{file_name}", log: false)
         Actions.sh("echo 'spawn git flow init' >> #{file_name}", log: false)
@@ -36,7 +40,7 @@ module Fastlane
         Actions.sh("echo 'send \"\r\"' >> #{file_name}", log: false)
         Actions.sh("echo 'expect eof' >> #{file_name}", log: false)
         Actions.sh("expect -f #{file_name}", log: false)
-        Actions.sh("rm -f #{file_name}", log: false)
+        #Actions.sh("rm -f #{file_name}", log: false)
       end
 
       def self.run(params)
@@ -48,7 +52,7 @@ module Fastlane
             params[:prefix_bugfix],
             params[:prefix_release],
             params[:prefix_hotfix],
-            params[:prefix_support]
+            params[:prefix_support],
             params[:prefix_versiontag]
           )
         end
