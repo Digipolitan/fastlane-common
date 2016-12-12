@@ -7,7 +7,7 @@ module Fastlane
 
       def self.run(params)
         begin
-          Actions.sh("git config --get-regexp gitflow")
+          Actions.sh("git config --get-regexp gitflow", log: false)
           UI.success "Git flow initialized"
         rescue
           UI.user_error! "Git flow is not initialized, you must call 'git flow init' in your project directory"
