@@ -28,7 +28,7 @@ module Fastlane
           res = changelog[0, start_index]
           if end_index != nil
             end_index += 1
-            res += changelog[end_index, change_log.length - end_index]
+            res += changelog[end_index, changelog.length - end_index]
           end
           changelog = res
         end
