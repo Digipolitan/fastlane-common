@@ -1,12 +1,3 @@
-module Fastlane
-  module Actions
-    module SharedValues
-      GIT_VERSION_TAG = :GIT_VERSION_TAG
-      GIT_BUILD_TAG = :GIT_BUILD_TAG
-    end
-  end
-end
-
 private_lane :select_new_version_number do |options|
   prepare_lane_options(
     options: options,
@@ -41,6 +32,7 @@ private_lane :select_new_build_number do |options|
   end
 end
 
+# :GIT_VERSION_TAG // :GIT_VERSION_TAG
 lane :ensure_version_availability do |options|
   ensure_git_flow_init()
   prepare_lane_options(
@@ -68,6 +60,6 @@ lane :ensure_version_availability do |options|
   UI.success "The version '#{version_number}' build ##{build_number} is available"
   lane_context[SharedValues::NEXT_VERSION_NUMBER] = version_number
   lane_context[SharedValues::NEXT_BUILD_NUMBER] = build_number
-  lane_context[SharedValues::GIT_VERSION_TAG] = "#{prefix_versiontag}#{version_number}"
-  lane_context[SharedValues::GIT_BUILD_TAG] = "#{prefix_versiontag}#{version_number}##{build_number}"
+  lane_context[:GIT_VERSION_TAG] = "#{prefix_versiontag}#{version_number}"
+  lane_context[:GIT_BUILD_TAG] = "#{prefix_versiontag}#{version_number}##{build_number}"
 end
