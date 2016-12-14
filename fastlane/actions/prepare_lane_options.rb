@@ -12,8 +12,11 @@ module Fastlane
           mapping.each { |key, mapping_info|
             if options[key] == nil
               env_var = mapping_info[:env_var]
+              lane_context = mapping_info[:lane_context]
               if env_var != nil && ENV[env_var] != nil
                 options[key] = ENV[env_var]
+              elsif lane_context != nil && Actions.lane_context[lane_context] != nil
+                  options[key] = Actions.lane_context[lane_context]
               elsif mapping_info[:default_value] != nil
                 options[key] = mapping_info[:default_value]
               end
@@ -40,7 +43,7 @@ module Fastlane
       #####################################################
 
       def self.description
-        "Fill env_var or default_value with key inside the input lane options and ckeck required keys"
+        "Fill env_var, lane_context or default_value with key inside the input lane options and ckeck required keys"
       end
 
       def self.available_options
@@ -74,7 +77,10 @@ module Fastlane
             options: lane_options,
             mapping: {
               :product_name => {
-                :env_var => "DG_PRODUCT_NAME"
+                :env_var => "DG_PRODUCT_NAME",
+              },
+              :github_release_link => {
+                :lane_context => SharedValues::SET_GITHUB_RELEASE_HTML_LINK
               }
             }
           )',
