@@ -27,9 +27,14 @@ module Fastlane
           required_keys.each { |key|
             if options[key] == nil
               error_msg = "Missing required lane option '#{key}'"
-              if mapping_info = mapping[key]
-                if env_var = mapping_info[:env_var]
-                  error_msg << " or environment variable '#{env_var}'"
+              if mapping != nil
+                if mapping_info = mapping[key]
+                  if env_var = mapping_info[:env_var]
+                    error_msg << " or environment variable '#{env_var}'"
+                  end
+                  if lane_context = mapping_info[:lane_context]
+                    error_msg << " or lane context '#{lane_context}'"
+                  end
                 end
               end
               UI.user_error! error_msg
