@@ -103,6 +103,7 @@ module Fastlane
             message: "Would you like to update this information ?"
           )'
         ]
+      end
     end
   end
 end
