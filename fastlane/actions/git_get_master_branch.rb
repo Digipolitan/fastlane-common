@@ -9,7 +9,7 @@ module Fastlane
       def self.run(params)
         branch = nil
         begin
-          branch = Actions.sh("git config --get gitflow.branch.master", log: false)
+          branch = Actions.sh("git config --get gitflow.branch.master", log: false).strip()
         rescue
           branch = "master"
         end
