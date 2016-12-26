@@ -9,7 +9,7 @@ module Fastlane
         version = params[:version_number]
         bump_type = params[:bump_type]
         version_arr = version.split(".").map(&:to_i)
-        arr_length = version.length
+        arr_length = version_arr.length
         if arr_length > 0
           fill_zero_from = 1
           if bump_type == "major"
