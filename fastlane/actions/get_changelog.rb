@@ -5,17 +5,20 @@ module Fastlane
 
     class GetChangelogAction < Action
       def self.run(params)
-        if content = File.read(params[:file_path])
-          delimiter = params[:delimiter]
-          length = content.length
-          if start_index = content.index(delimiter)
-            start_index += delimiter.length
-            end_index = content.index(delimiter, start_index)
-            if end_index == nil
-              end_index = length
-            end
-            if res = content[start_index, end_index - start_index]
-              return self.stripVersionHeader(res)
+        changelog_path = params[:file_path]
+        if File.exists?(changelog_path)
+          if content = File.read(changelog_path)
+            delimiter = params[:delimiter]
+            length = content.length
+            if start_index = content.index(delimiter)
+              start_index += delimiter.length
+              end_index = content.index(delimiter, start_index)
+              if end_index == nil
+                end_index = length
+              end
+              if res = content[start_index, end_index - start_index]
+                return self.stripVersionHeader(res)
+              end
             end
           end
         end
