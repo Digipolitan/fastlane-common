@@ -19,7 +19,7 @@ module Fastlane
       #####################################################
 
       def self.description
-        "Return true if the given branch exists, otherwise false"
+        "Returns true if the given branch exists, otherwise false"
       end
 
       def self.available_options

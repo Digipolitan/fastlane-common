@@ -1,8 +1,8 @@
 private_lane :select_new_version_number do |options|
   prepare_lane_options(
     options: options,
-    required_keys: [
-      :current_version_number
+    bind_params: [
+      Actions::BindParam.required(:current_version_number)
     ]
   )
   version_number = options[:current_version_number]
@@ -18,8 +18,8 @@ end
 private_lane :select_new_build_number do |options|
   prepare_lane_options(
     options: options,
-    required_keys: [
-      :current_build_number
+    bind_params: [
+      Actions::BindParam.required(:current_build_number)
     ]
   )
   build_number = options[:current_build_number]
@@ -32,17 +32,14 @@ private_lane :select_new_build_number do |options|
   end
 end
 
-# :GIT_VERSION_TAG // :GIT_VERSION_TAG
 lane :ensure_version_availability do |options|
   ensure_git_flow_init()
   prepare_lane_options(
     options: options,
-    mapping: {
-      :prefix_versiontag => {:lane_context => SharedValues::GIT_FLOW_VERSIONTAG_PREFIX},
-    },
-    required_keys: [
-      :current_version_number,
-      :current_build_number
+    bind_params: [
+      Actions::BindParam.optional(:prefix_versiontag, SharedValues::GIT_FLOW_VERSIONTAG_PREFIX),
+      Actions::BindParam.required(:current_version_number),
+      Actions::BindParam.required(:current_build_number)
     ]
   )
   prefix_versiontag = options[:prefix_versiontag]

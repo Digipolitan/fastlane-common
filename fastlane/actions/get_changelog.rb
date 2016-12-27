@@ -49,18 +49,18 @@ module Fastlane
       def self.available_options
         [
           FastlaneCore::ConfigItem.new(key: :file_path,
-                                       env_name: "DG_CHANGELOG_FILE_PATH",
+                                       env_name: "CHANGELOG_FILE_PATH",
                                        description: "The file path to the changelog file",
                                        default_value: "CHANGELOG.md"),
           FastlaneCore::ConfigItem.new(key: :delimiter,
-                                       env_name: "DG_CHANGELOG_DELIMITER",
+                                       env_name: "CHANGELOG_DELIMITER",
                                        description: "The changelog delimiter",
                                        default_value: "---")
         ]
       end
 
       def self.return_value
-        "All the last changelog content"
+        "Returns the last changelog content"
       end
 
       def self.authors

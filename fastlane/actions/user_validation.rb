@@ -1,3 +1,5 @@
+require_relative '../tools/bind_param'
+
 module Fastlane
   module Actions
     module SharedValues
@@ -5,36 +7,31 @@ module Fastlane
 
     class UserValidationAction < Action
       def self.run(params)
-        fields = params[:fields]
+        bind_params = params[:bind_params]
         dialog = ""
-        fields.each { |field|
-          name = field[:name]
-          if field[:value] == nil && field[:optional] == false
-            field[:value] = self.get_required_value(name)
+        bind_params.each { |param|
+          name = param.name
+          if param.value == nil && param.optional == false
+            param.value = self.get_required_value(name)
           end
-          value = field[:value]
-          dialog += "* #{name} : '#{value}'\n"
+          dialog += "* #{name} : '#{param.value}'\n"
         }
         dialog += params[:message] ? params[:message] : "Would you like to update these informations ?"
         if UI.confirm(dialog)
-          fields.each { |field|
-            name = field[:name]
-            value = field[:value]
-            if value == nil || UI.confirm("Would you like to change #{name} '#{value}' ?")
-              new_value = nil
-              if field[:optional] != false
-                new_value = self.get_optional_value(name)
+          bind_params.each { |param|
+            name = param.name
+            value = param.value
+            if value == nil || UI.confirm("Would you like to update #{param.name} '#{value}' ?")
+              if param.optional != false
+                param.value = self.get_optional_value(name)
               else
-                new_value = self.get_required_value(name)
+                param.value = self.get_required_value(name)
               end
-              field[:value] = new_value
             end
           }
         end
-        fields.each { |field|
-          if field[:lane_context] != nil
-            Actions.lane_context[field[:lane_context]] = field[:value]
-          end
+        bind_params.each { |param|
+          param.value = param.value # update lane_context // env_var and default_value
         }
       end
 
@@ -65,10 +62,12 @@ module Fastlane
 
       def self.available_options
         [
-          FastlaneCore::ConfigItem.new(key: :fields,
+          FastlaneCore::ConfigItem.new(key: :bind_params,
+                                       description: "Array of BindParam",
                                        optional: false,
                                        is_string: false),
           FastlaneCore::ConfigItem.new(key: :message,
+                                       description: "The user prompt message",
                                        optional: true)
         ]
       end
@@ -84,22 +83,15 @@ module Fastlane
       def self.example_code
         [
           'user_validation(
-            fields: [{
-              name: "Firstname",
-              value: "Jean",
-              lane_context: :TEST_FIRSTNAME
-            }, {
-              name: "Lastname",
-              lane_context: :TEST_LASTNAME,
-              optional: false
-            }]
+            bind_params: [
+              Actions::BindParam.optional("Firstname", :TEST_FIRSTNAME, nil, "Jean"),
+              Actions::BindParam.required("Lastname", :TEST_LASTNAME)
+            ]
           )',
           'user_validation(
-            fields: [{
-              name: "Firstname",
-              value: "Jean",
-              lane_context: :TEST_FIRSTNAME
-            }],
+            bind_params: [
+              Actions::BindParam.optional("Firstname", nil, "ENV_FIRSTNAME", "Jean")
+            ],
             message: "Would you like to update this information ?"
           )'
         ]
