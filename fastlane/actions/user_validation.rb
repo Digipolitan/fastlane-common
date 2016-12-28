@@ -1,4 +1,4 @@
-require_relative '../tools/bind_param'
+require_relative 'models/bind_param'
 
 module Fastlane
   module Actions
