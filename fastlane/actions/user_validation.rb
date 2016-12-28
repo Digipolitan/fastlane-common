@@ -84,13 +84,13 @@ module Fastlane
         [
           'user_validation(
             bind_params: [
-              Actions::BindParam.optional("Firstname", :TEST_FIRSTNAME, nil, "Jean"),
-              Actions::BindParam.required("Lastname", :TEST_LASTNAME)
+              Actions::BindParamBuilder.new("Firstname").lane_context(:TEST_FIRSTNAME).default_value("Jean").build(),
+              Actions::BindParamBuilder.new("Lastname").lane_context(:TEST_LASTNAME).required().build()
             ]
           )',
           'user_validation(
             bind_params: [
-              Actions::BindParam.optional("Firstname", nil, "ENV_FIRSTNAME", "Jean")
+              Actions::BindParamBuilder.new("Firstname").env_var("ENV_FIRSTNAME").default_value("Jean").build()
             ],
             message: "Would you like to update this information ?"
           )'

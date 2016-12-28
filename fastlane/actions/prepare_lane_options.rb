@@ -62,15 +62,15 @@ module Fastlane
           'prepare_lane_options(
             options: lane_options,
             bind_params: [
-              Actions::BindParam.optional(:product_name, nil, "PRODUCT_NAME"),
-              Actions::BindParam.optional(:github_release_link, SharedValues::SET_GITHUB_RELEASE_HTML_LINK)
+              Actions::BindParamBuilder.new(:product_name).env_var("PRODUCT_NAME").build(),
+              Actions::BindParamBuilder.new(:github_release_link).lane_context(SharedValues::SET_GITHUB_RELEASE_HTML_LINK)).build()
             ]
           )',
           'prepare_lane_options(
             options: lane_options,
             bind_params: [
-              Actions::BindParam.required(:product_name, nil, "PRODUCT_NAME"),
-              Actions::BindParam.optional(:changelog, nil, "CHANGELOG_CONTENT", "Empty changelog")
+              Actions::BindParamBuilder.new(:product_name).env_var("PRODUCT_NAME").required().build(),
+              Actions::BindParamBuilder.new(:changelog).env_var("CHANGELOG_CONTENT").default_value("Empty changelog").build()
             ]
           )'
         ]

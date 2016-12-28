@@ -17,14 +17,6 @@ module Fastlane
         @optional = optional
       end
 
-      def self.optional(name, lane_context = nil, env_var = nil, default_value = nil)
-        return self.new(name, lane_context, env_var, default_value)
-      end
-
-      def self.required(name, lane_context = nil, env_var = nil, default_value = nil)
-        return self.new(name, lane_context, env_var, default_value, false)
-      end
-
       def value()
         if self.lane_context != nil
           if value = Actions.lane_context[self.lane_context]
@@ -48,7 +40,46 @@ module Fastlane
         end
         @default_value = v
       end
+    end
 
+    class BindParamBuilder
+
+      def initialize(name)
+        @name = name
+        @lane_context = nil
+        @env_var = nil
+        @default_value = nil
+        @optional = true
+      end
+
+      def lane_context(lane_context)
+        @lane_context = lane_context
+        return self
+      end
+
+      def lane_context(lane_context)
+        @lane_context = lane_context
+        return self
+      end
+
+      def env_var(env_var)
+        @env_var = env_var
+        return self
+      end
+
+      def default_value(default_value)
+        @default_value = default_value
+        return self
+      end
+
+      def required()
+        @optional = false
+        return self
+      end
+
+      def build()
+        return BindParam.new(@name, @lane_context, @env_var, @default_value, @optional)
+      end
     end
   end
 end
