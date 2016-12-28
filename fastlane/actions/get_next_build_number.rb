@@ -30,7 +30,7 @@ module Fastlane
 
       def self.output
         [
-          ['NEXT_BUILD_NUMBER', 'The next build numner']
+          ['NEXT_BUILD_NUMBER', 'The next build number']
         ]
       end
 
