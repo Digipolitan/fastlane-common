@@ -38,9 +38,9 @@ module Fastlane
       def self.get_optional_value(name)
         new_value = UI.input("New #{name} ? [Press enter to ignore]")
         if new_value.length() > 0
-          return nil
+          return new_value
         end
-        return new_value
+        return nil
       end
 
       def self.get_required_value(name)
