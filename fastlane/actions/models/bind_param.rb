@@ -1,6 +1,7 @@
 module Fastlane
   module Actions
 
+    # Class represents a parameter link between lane_context, env_var and value
     class BindParam
 
       attr_reader :name # The name of the field
