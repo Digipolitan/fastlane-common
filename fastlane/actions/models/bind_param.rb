@@ -78,6 +78,13 @@ module Fastlane
         return self
       end
 
+      def ci_required()
+        if ENV["CI"] != nil
+          @optional = false
+        end
+        return self
+      end
+
       def build()
         return BindParam.new(@name, @lane_context, @env_var, @default_value, @optional)
       end
