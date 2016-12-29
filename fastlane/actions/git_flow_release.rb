@@ -13,7 +13,8 @@ module Fastlane
         elsif action == "finish"
           cmd << "-F" if params[:fetch]
           if message = params[:message]
-            cmd << "-m '#{message}'"
+            fix_message = message.downcase.split(' ').join('_') # fix git flow bug with spaces
+            cmd << "-m '#{fix_message}'"
           end
           cmd << "-p" if params[:push]
           cmd << "-k" if params[:keep]

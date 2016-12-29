@@ -1,3 +1,5 @@
+require_relative 'models/bind_param'
+
 module Fastlane
   module Actions
     module SharedValues
@@ -5,34 +7,25 @@ module Fastlane
 
     class PrepareLaneOptionsAction < Action
       def self.run(params)
-        mapping = params[:mapping]
-        required_keys = params[:required_keys]
         options = params[:options]
-        if mapping != nil
-          mapping.each { |key, mapping_info|
-            if options[key] == nil
-              env_var = mapping_info[:env_var]
-              if env_var != nil && ENV[env_var] != nil
-                options[key] = ENV[env_var]
-              elsif mapping_info[:default_value] != nil
-                options[key] = mapping_info[:default_value]
+        bind_params = params[:bind_params]
+        bind_params.each { |param|
+          name = param.name
+          if options[name] == nil
+            if value = param.value
+              options[name] = value
+            elsif param.optional == false
+              error_msg = "Missing required lane option '#{name}'"
+              if env_var = param.env_var
+                error_msg << " or environment variable '#{env_var}'"
               end
-            end
-          }
-        end
-        if required_keys != nil
-          required_keys.each { |key|
-            if options[key] == nil
-              error_msg = "Missing required lane option '#{key}'"
-              if mapping_info = mapping[key]
-                if env_var = mapping_info[:env_var]
-                  error_msg << " or environment variable '#{env_var}'"
-                end
+              if lane_context = param.lane_context
+                error_msg << " or lane context '#{lane_context}'"
               end
               UI.user_error! error_msg
             end
-          }
-        end
+          end
+        }
       end
 
       #####################################################
@@ -40,7 +33,7 @@ module Fastlane
       #####################################################
 
       def self.description
-        "Fill env_var or default_value with key inside the input lane options and ckeck required keys"
+        "Fill env_var, lane_context or default_value with key inside the input lane options and ckeck required keys"
       end
 
       def self.available_options
@@ -49,14 +42,10 @@ module Fastlane
                                        description: "inout lane Hash options, will be fill by the mapping",
                                        is_string: false,
                                        optional: false),
-          FastlaneCore::ConfigItem.new(key: :mapping,
-                                       description: "Hash containing key => {env_var:?, default_value:?}, match the key with an environment variable or a default value",
+          FastlaneCore::ConfigItem.new(key: :bind_params,
+                                       description: "Array of BindParam",
                                        is_string: false,
-                                       optional: true),
-          FastlaneCore::ConfigItem.new(key: :required_keys,
-                                       description: "Array of required key for the options Hash",
-                                       is_string: false,
-                                       optional: true)
+                                       optional: false)
         ]
       end
 
@@ -72,25 +61,16 @@ module Fastlane
         [
           'prepare_lane_options(
             options: lane_options,
-            mapping: {
-              :product_name => {
-                :env_var => "DG_PRODUCT_NAME"
-              }
-            }
+            bind_params: [
+              Actions::BindParamBuilder.new(:product_name).env_var("PRODUCT_NAME").build(),
+              Actions::BindParamBuilder.new(:github_release_link).lane_context(SharedValues::SET_GITHUB_RELEASE_HTML_LINK)).build()
+            ]
           )',
           'prepare_lane_options(
             options: lane_options,
-            mapping: {
-              :product_name => {
-                :env_var => "DG_PRODUCT_NAME"
-              },
-              :changelog => {
-                :env_var => "DG_CHANGELOG_CONTENT",
-                :default_value => "Empty changelog"
-              },
-            },
-            required_keys: [
-              :product_name
+            bind_params: [
+              Actions::BindParamBuilder.new(:product_name).env_var("PRODUCT_NAME").required().build(),
+              Actions::BindParamBuilder.new(:changelog).env_var("CHANGELOG_CONTENT").default_value("Empty changelog").build()
             ]
           )'
         ]

@@ -43,7 +43,7 @@ module Fastlane
       end
 
       def self.return_value
-        "return all files matching with the given pattern, otherwise nil if no file match with the given pattern"
+        "Returns all files matching with the given pattern, otherwise nil if no file match with the given pattern"
       end
 
       def self.authors
