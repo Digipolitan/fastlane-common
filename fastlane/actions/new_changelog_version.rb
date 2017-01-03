@@ -8,7 +8,7 @@ module Fastlane
         file_path = params[:file_path]
         product_name = params[:product_name]
         data = nil
-        if File.exists?(file_path)
+        if File.exist?(file_path)
           data = File.read(file_path)
         end
         if data == nil || data.length == 0
