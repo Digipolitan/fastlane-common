@@ -2,8 +2,8 @@ module Fastlane
   module Actions
 
     module BindParamTransform
-      None=1
-      Boolean=2
+      None=0
+      Boolean=1
     end
 
     # Class represents a parameter link between lane_context, env_var and value
@@ -42,7 +42,7 @@ module Fastlane
       end
 
       def _ensure_value(v)
-        if self.transform == BindParamTransform::Boolean
+        if @transform == BindParamTransform::Boolean
           return self._ensure_boolean(v)
         end
         return v
