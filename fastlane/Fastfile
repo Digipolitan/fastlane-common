@@ -25,15 +25,7 @@ lane :multi_environment do |options|
   env_hash = {}
   if envs = get_environments()
     envs.each { |name, env_path|
-      if data = File.read(env_path)
-        override = {}
-        if lines = data.split("\n")
-          lines.each { |line|
-            if index = line.index('=')
-              override[line[0..index-1]] = line[index+1..line.length]
-            end
-          }
-        end
+      if override = read_environment_file(path: env_path)
         env_hash[name] = override
       end
     }
