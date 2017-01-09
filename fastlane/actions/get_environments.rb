@@ -5,11 +5,12 @@ module Fastlane
 
     class GetEnvironmentsAction < Action
       def self.run(params)
-        if envs = Dir[File.join(params[:directory_path], ".env.*")]
+        if files = Dir[File.join(params[:directory_path], ".env.*")]
           env_hash = {}
-          envs.each { |env_path|
+          directory_path = Dir.pwd
+          files.each { |env_path|
             env_name = File.basename(env_path)[5..env_path.length]
-            env_hash[env_name] = env_path
+            env_hash[env_name] = File.join(directory_path, env_path)
           }
           return env_hash
         end
