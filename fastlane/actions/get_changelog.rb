@@ -6,7 +6,7 @@ module Fastlane
     class GetChangelogAction < Action
       def self.run(params)
         changelog_path = params[:file_path]
-        if File.exists?(changelog_path)
+        if File.exist?(changelog_path)
           if content = File.read(changelog_path)
             delimiter = params[:delimiter]
             length = content.length

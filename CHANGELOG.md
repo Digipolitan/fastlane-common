@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 
 ---
 
+## [0.3.0](https://github.com/Digipolitan/fastlane-common/releases/tag/v0.3.0)
+
+Add transformer builder
+Read local env files
+
+---
+
 ## [0.2.0](https://github.com/Digipolitan/fastlane-common/releases/tag/v0.2.0)
 
 Add new actions :
